@@ -35,10 +35,9 @@ echonest_client.prototype.lookup_song = function(name) {
         var songs =  JSON.parse(response.body).response.songs;
         if (songs && songs.length)
             p.resolve(songs[0]);
-        } else {
+        else 
             p.reject();
-            
-        }
+    
     });
     return p;
 }
