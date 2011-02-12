@@ -18,7 +18,8 @@ function handle(p, list) {
     var d = new echonest.client();
     when(d.lookup_song(el.name), function(result) {
         if (result.tracks && result.tracks.length && result.tracks[0].preview_url) {
-            el.song = result;
+            el.track_url = result.tracks[0].preview_url;
+            el.title = result.title;
             console.log(el)
             p.progress(el);
         }
@@ -30,9 +31,6 @@ if (process.argv[1] === __filename) {
     var c = new twitter.client();
     var p = new promise.Promise();
     when(c.search('#nowplaying'), function(twitter_info) {
-        for (var i = 0; i < twitter_info.length; i++) {
-            console.log(twitter_info[i])
-        }
         handle(p, twitter_info);
     })
 }

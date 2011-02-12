@@ -57,7 +57,7 @@ twitter_client.prototype.search = function(term) {
         geocode: loc.current_location() + ",1mi"
     };
     
-    console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
+    // console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
     when(self.client.get(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix), function(response) {
         var q = JSON.parse(response.body);
         var results = q.results.map(function(x) {

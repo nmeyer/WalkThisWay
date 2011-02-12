@@ -30,7 +30,7 @@ echonest_client.prototype.lookup_song = function(name) {
         title: name
     };
     url = self.url + '/song/search?' + querystring.stringify(params) + '&bucket=id:7digital&bucket=tracks';
-    console.log(url)
+    // console.log(url)
     when(self.client.get(url), function(response) {
         var songs =  JSON.parse(response.body).response.songs;
         p.resolve(songs[0]);
