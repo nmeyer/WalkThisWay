@@ -63,18 +63,17 @@ twitter_client.prototype.search_helper = function(p, term, location) {
         var results = q.results.map(function(x) {
             var data = {
                 name: self.clean(x.text),
-                lat: 0,
-                lng: 0
+                location: {}
             };
             try {
                 var lat_lng = x.location.split(' ')[1].split(',').map(parseFloat);
-                data.lat = lat_lng[0];
-                data.lng = lat_lng[1];
+                data.location.latitude = lat_lng[0];
+                data.location.longitude = lat_lng[1];
             } catch (e) {
             }
             return data;
         }).filter(function(x) {
-            return x.name.length && x.lat && !isNaN(x.lat) && x.lng && !isNaN(x.lng);
+            return x.name.length && x.location.latitude && !isNaN(x.location.latitude) && x.location.longitude && !isNaN(x.location.longitude);
         });
         p.resolve(results);
     })
