@@ -64,6 +64,10 @@ String.prototype.trim = function () {
     return this.replace( /^\s+|\s+$/g, '' );
 }
 
+String.prototype.startswith = function(str)  { 
+    return (this.match("^"+str)==str)
+}
+
 // Date
 
 /*

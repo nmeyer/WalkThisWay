@@ -6,7 +6,7 @@ var querystring = require("querystring")
 var promise = require("lib/promise")
 var fs = require('fs')
 var path = require('path')
-var config = require('config')
+// var config = require('config')
 
 var _filecache = {}
 
