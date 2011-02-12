@@ -52,7 +52,7 @@ twitter_client.prototype.search_helper = function(p, term, location) {
     
     var params = {
         q: term,
-        geocode: location + ",1mi",
+        geocode: location + ",5mi",
         rpp: 100
     };
     console.log(params)
@@ -64,7 +64,8 @@ twitter_client.prototype.search_helper = function(p, term, location) {
         var results = q.results.map(function(x) {
             var data = {
                 name: self.clean(x.text),
-                location: {}
+                location: {},
+                raw_twitter: x
             };
             try {
                 var lat_lng = x.location.split(' ')[1].split(',').map(parseFloat);
