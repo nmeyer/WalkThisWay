@@ -33,8 +33,21 @@ function run() {
     } 
 
     var server = connect.createServer(
-          socketIO( function () { return server; }, function (client, req, res) {
-              client.send(req.session.toString()); // Send the client their session
+          socketIO(function () { 
+              return server; 
+          }, function (client, req, res) {
+              console.log(client.sessionId + ' connected')
+              
+              client.send(req.session.toString()) // Send the client their session
+              
+              client.on('message', function(message){
+                  console.log('got message: '+message)
+              });
+
+              client.on('disconnect', function(){
+                  console.log(client.sessionId + ' disconnected');
+              });
+              
           }),  
           connect.cookieDecoder(),
           connect.session({secret: 'your_secret_is_safe_here',  store: new MemoryStore({ reapInterval: 60000 * 10}) }),
