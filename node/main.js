@@ -27,6 +27,17 @@ function handle(p, list) {
     });
 }
 
+function search(lat, lng) {
+    var c = new twitter.client();
+    var p = new promise.Promise();
+    when(c.search('#nowplaying'), function(twitter_info) {
+        handle(p, twitter_info);
+    })
+    return p;
+}
+
+exports.search = search
+
 if (process.argv[1] === __filename) {
     var c = new twitter.client();
     var p = new promise.Promise();

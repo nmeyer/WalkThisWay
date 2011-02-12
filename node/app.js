@@ -10,6 +10,7 @@ var fs          = require('fs')
 var url         = require('url')
 var querystring = require('querystring')
 var supervise   = require('lib/supervise')
+var main = require('main')
 
 require('lib/lang')
 
@@ -42,6 +43,10 @@ function run() {
               
               client.on('message', function(message){
                   console.log('got message: '+message)
+                  var latlng = message.location;
+                  main.search(latlng).then(function() {}, function() {}, function(el) {
+                      client.send(JSON.stringify(el));
+                  })
               });
 
               client.on('disconnect', function(){
