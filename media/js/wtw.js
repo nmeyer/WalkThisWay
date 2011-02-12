@@ -22,43 +22,47 @@ socket.on('disconnect', function(){
 
 // Google Maps
 
-function updateCurrentPosition(latlon) {
+function updateCurrentPosition(position) {
+    
+    // center map at new position
+    var newLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+    WTW.map.setCenter(newLocation)
+    
+    // convert to socket.io wire format
+    var latlon = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy
+    }
     console.log('updated current position: ', latlon)
+    
+    // send new position to backend
     var message = {
         location: latlon
     }
     socket.send(JSON.stringify(message))
-    console.log('socket sent location: ', message)
+    console.log('socket sent location.')
 }
 
 function initMap() {
     var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
     
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
+        disableDefaultUI: true,
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
     navigator.geolocation.getCurrentPosition(function(position) {
         console.log('initial position found via geolocation API: ', position)
-        var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-        map.setCenter(initialLocation)
-        updateCurrentPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy
-        })
+        updateCurrentPosition(position)
     }, function() {
         console.log('location failed. defaulting to new york')
         map.setCenter(newyork)
     })
     
     var watcher = navigator.geolocation.watchPosition(function(position) {
-        updateCurrentPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy
-        })
+        updateCurrentPosition(position)
     })
         
 }
