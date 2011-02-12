@@ -52,7 +52,7 @@ twitter_client.prototype.search_helper = function(p, term, location) {
     
     var params = {
         q: term,
-        geocode: location + ",1mi",
+        geocode: location + ",5mi",
         rpp: 100
     };
     console.log(params)
