@@ -35,9 +35,12 @@ function initMap() {
 // Player
 
 function initPlayer() {
-    var $player = document.getElementById("player");
-    $player.load();
-    $player.play();
+    // var $player = document.getElementById("player");
+    var player = WTW.player = new Player("#player")
+    player.load('media/clips/sample.clip.mp3')
+    player.play()
+    // $player.load();
+    // $player.play();
 }
 
 // Sammy
@@ -53,4 +56,5 @@ var app = WTW.app = $.sammy(function() {
 $(function() {
     app.run()
     initMap()
+    initPlayer()
 });
