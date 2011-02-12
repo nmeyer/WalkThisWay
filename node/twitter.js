@@ -65,7 +65,7 @@ twitter_client.prototype.search_helper = function(p, term, location) {
             var data = {
                 name: self.clean(x.text),
                 location: {},
-                raw: x
+                raw_twitter: x
             };
             try {
                 var lat_lng = x.location.split(' ')[1].split(',').map(parseFloat);
