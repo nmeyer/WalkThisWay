@@ -3,18 +3,9 @@
   <head>
     <title>Walk This Way</title>
 	<script src="http://localhost:8000/socket.io/socket.io.js"></script>
-	<script>
-	var socket = new io.Socket(); 
-	socket.connect();
- 
-	socket.on('connect', function(){ 
-	  socket.send('hi!'); 
-	}) 
-	socket.on('message', function(data){ 
-	  alert(data);
-	})
-	socket.on('disconnect', function(){})
-	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="media/js/sammy.js"></script>
+	<script src="media/js/wtw.js"></script>
   </head>
   
   <body>Test HTML site!!!!</body>
