@@ -32,6 +32,14 @@ function initMap() {
     })
 }
 
+// Player
+
+function initPlayer() {
+    var $player = document.getElementById("player");
+    $player.load();
+    $player.play();
+}
+
 // Sammy
 
 var app = WTW.app = $.sammy(function() {
