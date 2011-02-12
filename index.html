@@ -1,22 +1,23 @@
-<html>
+<!DOCTYPE html>
 
-  <head>
+<html>
+<head>
     <title>Walk This Way</title>
-	<script src="http://localhost:8000/socket.io/socket.io.js"></script>
-	<script>
-	var socket = new io.Socket(); 
-	socket.connect();
- 
-	socket.on('connect', function(){ 
-	  socket.send('hi!'); 
-	}) 
-	socket.on('message', function(data){ 
-	  alert(data);
-	})
-	socket.on('disconnect', function(){})
-	</script>
-  </head>
-  
-  <body>Test HTML site!!!!</body>
-  
+    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="media/js/sammy.js"></script>
+    <script src="media/js/wtw.js"></script>
+    <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+</head>
+<body>
+    
+    <div id="map"></div>
+    
+    <audio id="player" autoplay="autoplay" preload="auto" controls="controls">
+        <source src="media/clips/sample.clip.mp3"/>
+    </audio>
+    
+</body>
 </html>
