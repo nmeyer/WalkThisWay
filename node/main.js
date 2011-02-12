@@ -7,15 +7,26 @@ var assert = require('assert'),
     when = require('lib/promise').when,
     lang = require('lib/lang'),
     twitter = require('twitter'),
-    echonest = require('echonest');
-    
+    echonest = require('echonest'),
+    promise = require('lib/promise');
+
+function handle(list) {
+    if (list.length === 0) {
+        return;
+    }
+    var el = list.shift();
+    var d = new echonest.client();
+    when(d.lookup_song(el.name), function(result) {
+        el.song = result;
+        console.log(el);
+        return handle(list);
+    });
+}
+
 if (process.argv[1] === __filename) {
     var c = new twitter.client();
-    var d = new echonest.client();
     
-    when(c.blah(), function(name) {
-        when(d.blah(name), function(result) {
-            console.log(result);
-        })
+    when(c.blah(), function(twitter_info) {
+        handle(twitter_info);
     })
 }

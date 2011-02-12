@@ -38,24 +38,38 @@ twitter_client.prototype.clean = function(s) {
     s = s.toLowerCase();
     var tokens = s.split(' ');
     tokens = tokens.filter(function(el) {
-        return !(el.startswith("#") || el.startswith('@'));
+        return !(el.startswith("#") || el.startswith('@') || (el === 'rt'));
     });
     return tokens.join(' ');
 }
  
+/**
+ * returns a promise that returns:
+ * {name: song name, lat: lat of twitter post, lng: lng of twitter post}
+ */
 twitter_client.prototype.blah = function(options) {
     var self = this;
     
+    var loc = new location.client();
     var p = new promise.Promise();
     var params = {
         q: '#nowplaying',
-        geocode: "40.7392920,-73.9893630,1mi"
+        geocode: loc.current_location() + ",1mi"
     };
     
     console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
     when(self.client.get(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix), function(response) {
         var q = JSON.parse(response.body);
-        p.resolve(self.clean(q.results[0].text));
+        var results = q.results.map(function(x) {
+            return {
+                name: self.clean(x.text),
+                lat: 0,
+                lng: 0
+            };
+        }).filter(function(x) {
+            return x.name.length;
+        });
+        p.resolve(results);
     })
     return p;
 };
