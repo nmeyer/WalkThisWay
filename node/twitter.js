@@ -47,15 +47,14 @@ twitter_client.prototype.clean = function(s) {
  * returns a promise that returns:
  * {name: song name, lat: lat of twitter post, lng: lng of twitter post}
  */
-twitter_client.prototype.search_helper = function(p, term, page) {
+twitter_client.prototype.search_helper = function(p, term, location) {
     var self = this;
     var loc = new location.client();
     
     var params = {
         q: term,
-        geocode: loc.current_location() + ",1mi",
-        rpp: 100,
-        page: page
+        geocode: location + ",1mi",
+        rpp: 100
     };
     
     // console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
@@ -80,14 +79,12 @@ twitter_client.prototype.search_helper = function(p, term, page) {
         p.resolve(results);
     })
 }
-twitter_client.prototype.search = function(term) {
+twitter_client.prototype.search = function(term, location) {
     var self = this;
-    
     var p = new promise.Promise();
     self.search_helper(p, term);
     return p;
 };
-
 
 exports.client = twitter_client;
 
