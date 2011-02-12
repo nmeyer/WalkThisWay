@@ -14,16 +14,26 @@ function echonest_client() {
     this.client = new httpclient.HttpClient();
 }
 
-echonest_client.prototype.blah = function(name) {
+
+/**
+ * returns a promise that returns:
+ * {name: song name, lat: lat of twitter post, lng: lng of twitter post}
+ */
+echonest_client.prototype.lookup_song = function(name) {
     var self = this;
     var p = new promise.Promise();
-    var params = {
+    var params;
+    
+    var url;
+    params = {
         api_key: self.key,
         title: name
     };
-    var url = self.url + '/song/search?' + querystring.stringify(params);
+    url = self.url + '/song/search?' + querystring.stringify(params) + '&bucket=id:7digital&bucket=tracks';
+    // console.log(url)
     when(self.client.get(url), function(response) {
-        p.resolve(JSON.parse(response.body).response.songs[0]);
+        var songs =  JSON.parse(response.body).response.songs;
+        p.resolve(songs[0]);
     });
     return p;
 }
