@@ -10,6 +10,9 @@ var assert = require('assert'),
     echonest = require('echonest'),
     promise = require('lib/promise');
 
+var running = [];
+
+
 function handle(p, list) {
     if (list.length === 0) {
         return;
@@ -21,7 +24,7 @@ function handle(p, list) {
             el.track_url = result.tracks[0].preview_url;
             el.title = result.title;
             el.raw_echonest = result;
-            console.log(el)
+            console.log(el);
             p.progress(el);
         }
         return handle(p, list);

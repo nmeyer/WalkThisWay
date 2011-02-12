@@ -253,7 +253,7 @@ function Deferred(canceller){
       reject(error);
     }
   }
-  freeze(promise);
+  // freeze(promise);
 };
 
 function perform(value, async, sync){
