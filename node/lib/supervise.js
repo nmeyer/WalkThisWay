@@ -5,6 +5,7 @@ var logging ={
 } //require('../mw/logging')
 var fs      = require('fs')
 var spawn   = require('child_process').spawn
+var sys = require('sys')
 
 function watchGivenFile (path, callback) {
     fs.watchFile(path, {interval: 500}, function(curr, prev) {

@@ -11,17 +11,6 @@ var ioSocketOptions = {
         'jsonp-polling': { timeout: _socketTimeout }
 	}
 }
-// 
-// if (window.location.hostname && 
-//     window.location.hostname.indexOf('localhost') == -1 &&
-//     window.location.hostname.indexOf('127.0.0.1') == -1 &&
-//     window.location.hostname.indexOf('10.0.6.237') === -1 &&
-//     window.location.hostname.indexOf('10.0.4.192') === -1) {
-//     ioSocketOptions.secure = true
-//     ioSocketOptions.port = 443
-// }
-
-    ioSocketOptions.port = 80
 
 var Socket = function () {
     this.socket = null
