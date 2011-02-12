@@ -30,7 +30,7 @@ function handle(p, list) {
 function search(loc) {
     var c = new twitter.client();
     var p = new promise.Promise();
-    when(c.search('#nowplaying', loc), function(twitter_info) {
+    when(c.search('#nowplaying', "" + loc.latitude + ',' + loc.longitude), function(twitter_info) {
         handle(p, twitter_info);
     })
     return p;
