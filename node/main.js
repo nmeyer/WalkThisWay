@@ -20,6 +20,7 @@ function handle(p, list) {
         if (result && result.tracks && result.tracks.length && result.tracks[0].preview_url) {
             el.track_url = result.tracks[0].preview_url;
             el.title = result.title;
+            el.raw_echonest = result;
             console.log(el)
             p.progress(el);
         }
