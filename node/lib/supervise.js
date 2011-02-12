@@ -1,4 +1,8 @@
-var logging = require('../mw/logging')
+var logging ={
+    info: function(x) {
+        console.log(x);
+    }, 
+} //require('../mw/logging')
 var fs      = require('fs')
 var spawn   = require('child_process').spawn
 

@@ -1,4 +1,4 @@
-sprintf = require('lib/sprintf').sprintf
+// sprintf = require('lib/sprintf').sprintf
 
 // Object
 
@@ -45,6 +45,7 @@ global.update = function(self, o) {
 String.prototype.times = function(n) {
     return n > 0 ? (new Array(n+1)).join(this) : '';
 }
+/*
 String.prototype.format = function() {
     var args = Array.prototype.slice.call(arguments)
     args.unshift(this)
@@ -54,6 +55,8 @@ String.prototype.format = function() {
     }
     return sprintf.apply(null, args)
 }
+*/
+
 String.prototype.pad = function(len, pad) {
     return (pad || '0').times(len - this.length) + this;
 }
