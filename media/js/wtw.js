@@ -15,12 +15,27 @@ socket.on('connect', function(){
 }) 
 socket.on('message', function(data){ 
     console.log('socket got message:', data);
+    var message = JSON.parse(data)
+    if (message.location) {
+        showTweetOnMap(message)
+    }
 })
 socket.on('disconnect', function(){
     console.log('socket disconnected.')
 })
 
 // Google Maps
+
+function showTweetOnMap(message) {
+    var position = new google.maps.LatLng(message.location.latitude, message.location.longitude)
+    console.log('placing marker at ', position)
+    var marker = new google.maps.Marker({
+        map: WTW.map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: position
+    });
+}
 
 function updateCurrentPosition(position) {
     
