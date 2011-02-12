@@ -30,6 +30,9 @@ if (process.argv[1] === __filename) {
     var c = new twitter.client();
     var p = new promise.Promise();
     when(c.search('#nowplaying'), function(twitter_info) {
+        for (var i = 0; i < twitter_info.length; i++) {
+            console.log(twitter_info[i])
+        }
         // handle(p, twitter_info);
     })
 }

@@ -74,7 +74,7 @@ twitter_client.prototype.search = function(term) {
             }
             return data;
         }).filter(function(x) {
-            return x.name.length;
+            return x.name.length && x.lat && !isNaN(x.lat) && x.lng && !isNaN(x.lng);
         });
         p.resolve(results);
     })
