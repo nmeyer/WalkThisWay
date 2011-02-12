@@ -17,7 +17,7 @@ function handle(p, list) {
     var el = list.shift();
     var d = new echonest.client();
     when(d.lookup_song(el.name), function(result) {
-        if (result.tracks && result.tracks.length && result.tracks[0].preview_url) {
+        if (result && result.tracks && result.tracks.length && result.tracks[0].preview_url) {
             el.track_url = result.tracks[0].preview_url;
             el.title = result.title;
             console.log(el)
@@ -27,10 +27,10 @@ function handle(p, list) {
     });
 }
 
-function search(lat, lng) {
+function search(loc) {
     var c = new twitter.client();
     var p = new promise.Promise();
-    when(c.search('#nowplaying'), function(twitter_info) {
+    when(c.search('#nowplaying', loc), function(twitter_info) {
         handle(p, twitter_info);
     })
     return p;
@@ -41,7 +41,7 @@ exports.search = search
 if (process.argv[1] === __filename) {
     var c = new twitter.client();
     var p = new promise.Promise();
-    when(c.search('#nowplaying'), function(twitter_info) {
+    when(c.search('#nowplaying', "40.7392920,-73.9893630"), function(twitter_info) {
         handle(p, twitter_info);
     })
 }

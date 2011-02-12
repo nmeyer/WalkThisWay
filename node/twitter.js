@@ -49,17 +49,18 @@ twitter_client.prototype.clean = function(s) {
  */
 twitter_client.prototype.search_helper = function(p, term, location) {
     var self = this;
-    var loc = new location.client();
     
     var params = {
         q: term,
         geocode: location + ",1mi",
         rpp: 100
     };
+    console.log(params)
     
     // console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
     when(self.client.get(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix), function(response) {
         var q = JSON.parse(response.body);
+        // console.log(q)
         var results = q.results.map(function(x) {
             var data = {
                 name: self.clean(x.text),
@@ -81,7 +82,7 @@ twitter_client.prototype.search_helper = function(p, term, location) {
 twitter_client.prototype.search = function(term, location) {
     var self = this;
     var p = new promise.Promise();
-    self.search_helper(p, term);
+    self.search_helper(p, term, location);
     return p;
 };
 
