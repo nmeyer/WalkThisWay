@@ -39,7 +39,7 @@ function run() {
           }, function (client, req, res) {
               console.log(client.sessionId + ' connected')
               
-              client.send(req.session.toString()) // Send the client their session
+             //  client.send(req.session.toString()) // Send the client their session
               
               client.on('message', function(message){
                   console.log('got message: '+message)
