@@ -24,23 +24,30 @@ socket.on('disconnect', function(){
 // Google Maps
 
 function initMap() {
-    var myLatlng = new google.maps.LatLng(-34.397, 150.644);
+    var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+    
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 8,
-        center: myLatlng,
+        zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
+    
+    navigator.geolocation.getCurrentPosition(function(position) {
+        console.log('initial position found via geolocation API: ', position)
+        var initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+        map.setCenter(initialLocation)
+    }, function() {
+        console.log('location failed. defaulting to new york')
+        map.setCenter(newyork)
+    })
+        
 }
 
 // Player
 
 function initPlayer() {
-    // var $player = document.getElementById("player");
     var player = WTW.player = new Player("#player")
     player.load('media/clips/sample.clip.mp3')
     player.play()
-    // $player.load();
-    // $player.play();
 }
 
 // Sammy
