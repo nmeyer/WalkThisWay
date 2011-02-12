@@ -10,23 +10,26 @@ var assert = require('assert'),
     echonest = require('echonest'),
     promise = require('lib/promise');
 
-function handle(list) {
+function handle(p, list) {
     if (list.length === 0) {
         return;
     }
     var el = list.shift();
     var d = new echonest.client();
     when(d.lookup_song(el.name), function(result) {
-        el.song = result;
-        console.log(el);
-        return handle(list);
+        if (result.tracks && result.tracks.length && result.tracks[0].preview_url) {
+            el.song = result;
+            console.log(el)
+            p.progress(el);
+        }
+        return handle(p, list);
     });
 }
 
 if (process.argv[1] === __filename) {
     var c = new twitter.client();
-    
-    when(c.blah(), function(twitter_info) {
-        handle(twitter_info);
+    var p = new promise.Promise();
+    when(c.search('#nowplaying'), function(twitter_info) {
+        // handle(p, twitter_info);
     })
 }
