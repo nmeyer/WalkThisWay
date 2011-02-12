@@ -1,6 +1,6 @@
 var http = require('http'),
     // config = require('./config'),
-    static = require('lib/node-static')
+    static = require('./lib/node-static')
 
 var argv = process.argv.slice(1),
     port = 8000,
