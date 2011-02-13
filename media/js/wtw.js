@@ -74,7 +74,7 @@ function updateCurrentPosition(position) {
 
         // center map at new position
         var newLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-        WTW.map.setCenter(newLocation)
+        WTW.map.panTo(newLocation)
     }
     
     if (WTW.player.ready) {
@@ -101,7 +101,7 @@ function initMap() {
     }
     
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
-        center: new google.maps.LatLng(newyork.latitude, newyork.longitude),
+        center: new google.maps.LatLng(WTW.currentPosition.latitude, WTW.currentPosition.longitude),
         disableDefaultUI: true,
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -126,8 +126,6 @@ function initMap() {
 
 function initPlayer() {
     var player = WTW.player = new Player("#player")
-    // player.load('media/clips/sample.clip.mp3') // test
-    // player.play()
 }
 
 WTW.readyForMusic = function() {
