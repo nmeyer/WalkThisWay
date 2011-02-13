@@ -3,6 +3,7 @@ if (typeof WTW === 'undefined')
 WTW.map = null
 WTW.app = null
 WTW.socket = null
+WTW.player = null
 
 // Socket.IO setup
 
@@ -18,6 +19,10 @@ socket.on('message', function(data){
     var message = JSON.parse(data)
     if (message.location) {
         showTweetOnMap(message)
+    }
+    if (message.track_url) {
+        WTW.enqueue(message.track_url)
+        // WTW.player.load(message.track_url)
     }
 })
 socket.on('disconnect', function(){
@@ -57,6 +62,9 @@ function updateCurrentPosition(position) {
     }
     socket.send(JSON.stringify(message))
     console.log('socket sent location.')
+    
+    console.log('clearing queue in prep for new song results...')
+    WTW.player.clearQueue()
 }
 
 function initMap() {
@@ -64,17 +72,17 @@ function initMap() {
     
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
         disableDefaultUI: true,
-        zoom: 15,
+        zoom: 14,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
-    navigator.geolocation.getCurrentPosition(function(position) {
-        console.log('initial position found via geolocation API: ', position)
-        updateCurrentPosition(position)
-    }, function() {
-        console.log('location failed. defaulting to new york')
-        map.setCenter(newyork)
-    })
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //     console.log('initial position found via geolocation API: ', position)
+    //     updateCurrentPosition(position)
+    // }, function() {
+    //     console.log('location failed. defaulting to new york')
+    //     map.setCenter(newyork)
+    // })
     
     var watcher = navigator.geolocation.watchPosition(function(position) {
         updateCurrentPosition(position)
