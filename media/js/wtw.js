@@ -64,24 +64,27 @@ function showTweetOnMap(message) {
 
 function updateCurrentPosition(position) {
     
-    // center map at new position
-    var newLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-    WTW.map.setCenter(newLocation)
-    
-    // convert to socket.io wire format
-    var latlon = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        accuracy: position.coords.accuracy
+    if (position) {
+        WTW.currentPosition = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy
+        }
+        console.log('updated current position: ', WTW.currentPosition)
+
+        // center map at new position
+        var newLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+        WTW.map.setCenter(newLocation)
     }
-    console.log('updated current position: ', latlon)
     
-    // send new position to backend
-    var message = {
-        location: latlon
+    if (WTW.player.ready) {
+        // send new position to backend
+        var message = {
+            location: WTW.currentPosition
+        }
+        socket.send(JSON.stringify(message))
+        console.log('socket sent location.')
     }
-    socket.send(JSON.stringify(message))
-    console.log('socket sent location.')
 }
 
 function initMap() {
@@ -99,7 +102,6 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
-    /*
     navigator.geolocation.getCurrentPosition(function(position) {
         console.log('getCurrentPosition')
         updateCurrentPosition(position)
@@ -107,15 +109,11 @@ function initMap() {
         console.log('location failed. keeping default in new york.')
         updateCurrentPosition(newyork)
     })
-    */
-    updateCurrentPosition(newyork);
     
-    /*
     var watcher = navigator.geolocation.watchPosition(function(position) {
         console.log('watchPosition')
         updateCurrentPosition(position)
     })
-    */
         
 }
 
@@ -125,6 +123,10 @@ function initPlayer() {
     var player = WTW.player = new Player("#player")
     // player.load('media/clips/sample.clip.mp3') // test
     // player.play()
+}
+
+WTW.readyForMusic = function() {
+    updateCurrentPosition()
 }
 
 // Sammy

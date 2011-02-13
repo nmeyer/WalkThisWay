@@ -9,6 +9,7 @@ function Player(selector) {
         ready: function() {
             console.log('player ready.')
             that.ready = true
+            WTW.readyForMusic()
         },
         ended: function() {
             console.log('player ended.')
