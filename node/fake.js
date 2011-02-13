@@ -14,17 +14,27 @@ exports.stop_search = function() {
     
 }
 
+var fake_urls = [
+    'http://previews.7digital.com/clips/1069/10541562.clip.mp3',
+    'http://previews.7digital.com/clips/1069/11906060.clip.mp3',
+    'http://previews.7digital.com/clips/1069/8826261.clip.mp3',
+    'http://previews.7digital.com/clips/1069/10866589.clip.mp3',
+    'http://previews.7digital.com/clips/1069/3470736.clip.mp3',
+    'http://previews.7digital.com/clips/1069/3246146.clip.mp3'
+]
+
 function fake_object() {
     var lat = 40.7392920;
     var lng = -73.9893630;
-    var dlat = 0.02;
-    var dlng = 0.02;
+    var dlat = 0.01;
+    var dlng = 0.01;
+    var track_num = Math.floor(Math.random() * 30) % 5
     return {
         location: {
             latitude: lat + (((Math.random() * 2) - 1) * dlat),
             longitude: lng + (((Math.random() * 2) - 1) * dlng)
         },
-        track_url: 'http://previews.7digital.com/clips/1069/8826261.clip.mp3'
+        track_url: fake_urls[track_num]
     }
 }
 
