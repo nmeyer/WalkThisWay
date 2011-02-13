@@ -10,7 +10,8 @@ var fs          = require('fs')
 var url         = require('url')
 var querystring = require('querystring')
 var supervise   = require('lib/supervise')
-var main = require('fake')
+// var main = require('fake')
+var main = require('main')
 
 require('lib/lang')
 
@@ -41,18 +42,31 @@ function run() {
               
              //  client.send(req.session.toString()) // Send the client their session
               
+	      var tweets = []
+	      var sent = false;
               client.on('message', function(message){
                   console.log('got message: '+message)
                   var latlng  = JSON.parse(message).location
                   console.log(latlng)
-                  main.stop_search()
-                  main.search(latlng).then(function() {}, function() {}, function(el) {
-                      client.send(JSON.stringify(el));
-                  })
+                  main.search(latlng).then(
+		      function() {
+			  client.send(JSON.stringify(tweets[0]))
+		      }, 
+		      function() {}, 
+		      function(el) {
+			  // tweets.push(el);
+			  if (sent) return
+			  client.send(JSON.stringify(el));
+			  sent = true;
+
+                      })
               });
 
               client.on('disconnect', function(){
+                  main.stop_search()
+                  
                   console.log(client.sessionId + ' disconnected');
+                  
               });
               
           }),  

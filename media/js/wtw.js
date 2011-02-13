@@ -81,6 +81,7 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
+    /*
     navigator.geolocation.getCurrentPosition(function(position) {
         console.log('getCurrentPosition')
         updateCurrentPosition(position)
@@ -88,11 +89,15 @@ function initMap() {
         console.log('location failed. keeping default in new york.')
         updateCurrentPosition(newyork)
     })
+    */
+    updateCurrentPosition(newyork);
     
+    /*
     var watcher = navigator.geolocation.watchPosition(function(position) {
         console.log('watchPosition')
         updateCurrentPosition(position)
     })
+    */
         
 }
 

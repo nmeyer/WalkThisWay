@@ -47,5 +47,7 @@ exports.client = echonest_client;
 // test
 if (process.argv[1] === __filename) {
     var c = new echonest_client();
-    c.blah();
+    when(c.lookup_song("notorious b.i.g.junior mafia - get money (remix f biggie smalls)"), function(x) {
+	console.log(x);
+    });
 }

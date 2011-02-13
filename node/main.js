@@ -42,16 +42,77 @@ function assign_id(obj) {
     obj.id = id;
 }
 
+function format_location(obj) {
+    return "" + obj.latitude + ',' + obj.longitude;
+}
+
+var echo_queries = 0
 function search(loc) {
     var c = new twitter.client();
+    var echo = new echonest.client();
+    
     var p = new promise.Promise();
     assign_id(p);
     running.push(p);
     console.log('running search:' + p.id)
+
+    var results = [];
+    var total = 0;
+    var q = c.search(format_location(loc), '#nowplaying');
+    q.then(
+	function() {
+	    /*
+	    console.log('resolving')
+	    for (var i = 0; i < results.length; i++) {
+		var tweet = results[i];
+		var first_song = tweet.song_info;
+		if (first_song && first_song.tracks && first_song.tracks.length) {
+		    tweet.track_url = first_song.tracks[0].preview_url;
+		    p.progress(tweet);
+		    console.log('sending tweet:')
+		    console.log(tweet);
+		    break;
+		}
+	    }
+	    */
+	},
+	function(e){
+	    console.log('uh oh')
+	    console.log(e)
+	},
+	function(x) {
+	    total += x.length;
+	    var tweet;
+	    for(var i = 0; i < x.length; i++) {
+		tweet = x[i];
+		if (tweet.id && tweet.id_str) {
+		    results.push(tweet);
+/*
+		    if (echo_queries >= 10) { 
+			continue;
+		    }
+*/
+		    console.log('asking for song info from echonest')
+// 		    echo_queries++;
+		    when(echo.lookup_song(tweet.info.title), function(first_song) {
+			console.log('got song info from echonest')
+			tweet.song_info = first_song;
+			if (first_song && first_song.tracks && first_song.tracks.length) {
+			    tweet.track_url = first_song.tracks[0].preview_url;
+			    p.progress(tweet);
+			}
+		    });
+		}
+	    }
+	    // p.resolve();
+	})
+
+    /*
     c.search('#nowplaying', "" + loc.latitude + ',' + loc.longitude).then(function() {console.log('resolved')}, function(){console.log('rejected') }, function(twitter_info) {
         console.log('progress:' + p.id)
         handle(p, twitter_info);
     })
+    */
     return p;
 }
 
@@ -66,9 +127,18 @@ exports.stop_search = stop_search
 exports.search = search
 
 if (process.argv[1] === __filename) {
-    var c = new twitter.client();
     var p = new promise.Promise();
-    c.search('#nowplaying', "40.7392920,-73.9893630").then(function() {}, function(){}, function(twitter_info) {
-        handle(p, twitter_info);
-    })
+    var results = [];
+    var total = 0;
+    
+    search("40.7392920,-73.9893630", '#nowplaying').then(
+	function() {
+	},
+	function(e){
+	    console.log('uh oh')
+	    console.log(e)
+	},
+	function(x) {
+	    // console.log(x)
+	})
 }
