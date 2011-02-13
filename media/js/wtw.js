@@ -21,8 +21,7 @@ socket.on('message', function(data){
         showTweetOnMap(message)
     }
     if (message.track_url) {
-        WTW.enqueue(message.track_url)
-        // WTW.player.load(message.track_url)
+        WTW.player.play(message.track_url)
     }
 })
 socket.on('disconnect', function(){
@@ -62,29 +61,33 @@ function updateCurrentPosition(position) {
     }
     socket.send(JSON.stringify(message))
     console.log('socket sent location.')
-    
-    console.log('clearing queue in prep for new song results...')
-    WTW.player.clearQueue()
 }
 
 function initMap() {
-    var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+    var newyork = {
+        coords: { 
+            latitude: 40.739292,
+            longitude: -73.989363
+        }
+    }
     
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
+        center: new google.maps.LatLng(newyork.latitude, newyork.longitude),
         disableDefaultUI: true,
-        zoom: 14,
+        zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
     navigator.geolocation.getCurrentPosition(function(position) {
-        console.log('initial position found via geolocation API: ', position)
+        console.log('getCurrentPosition')
         updateCurrentPosition(position)
     }, function() {
-        console.log('location failed. defaulting to new york')
-        map.setCenter(newyork)
+        console.log('location failed. keeping default in new york.')
+        updateCurrentPosition(newyork)
     })
     
     var watcher = navigator.geolocation.watchPosition(function(position) {
+        console.log('watchPosition')
         updateCurrentPosition(position)
     })
         
@@ -95,21 +98,21 @@ function initMap() {
 function initPlayer() {
     var player = WTW.player = new Player("#player")
     // player.load('media/clips/sample.clip.mp3') // test
-    player.play()
+    // player.play()
 }
 
 // Sammy
 
-var app = WTW.app = $.sammy(function() {
-
-    this.get('#/', function() {
-        
-    });
-
-});
+// var app = WTW.app = $.sammy(function() {
+// 
+//     this.get('#/', function() {
+//         
+//     });
+// 
+// });
 
 $(function() {
-    app.run()
-    initMap()
     initPlayer()
+    // app.run()
+    initMap()
 });

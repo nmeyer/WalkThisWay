@@ -35,7 +35,7 @@ function helper(p) {
         console.log('*** sending ***');
         p.progress(fake_object());
         helper(p);
-    }, 1000);
+    }, 15000);
 }
 
 exports.search = function() {
@@ -44,6 +44,12 @@ exports.search = function() {
     };
     running = true;
     var p = new promise.Promise();
+    
+    setTimeout(function() {
+        console.log('*** sending ***')
+        p.progress(fake_object())  
+    }, 1000)
+    
     helper(p);
     return p;
 }
