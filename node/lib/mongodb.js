@@ -1,14 +1,13 @@
 var mongodb = require('../lib/node-mongodb-native'),
-    config = require('../config'),
-    url = require('url'),
-    logging = require('./logging')
+    url = require('url')
+//logging = require('./logging')
 
 var _db = null
 
 function connect(urls, options) {
     var uri, name, servers = [], replSet
 
-    if (!urls) urls = ['mongodb://127.0.0.1/mw']
+    if (!urls) urls = ['mongodb://127.0.0.1/wtw']
     
     if (!(urls instanceof Array)) urls = [urls]
 
@@ -127,7 +126,7 @@ function Database(collectionName) {
     var collection = new Collection(collectionName)
 
     if (!_db) {
-        connect(config.settings.db)
+        connect() //config.settings.db)
         
         _db.on('error', function(err) {
             collection.checkError(err)

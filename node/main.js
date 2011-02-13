@@ -8,7 +8,8 @@ var assert = require('assert'),
     lang = require('lib/lang'),
     twitter = require('twitter'),
     echonest = require('echonest'),
-    promise = require('lib/promise');
+promise = require('lib/promise'),
+db = require('lib/mongodb').Database;
 
 var running = [];
 
@@ -43,7 +44,11 @@ function assign_id(obj) {
 }
 
 function format_location(obj) {
-    return "" + obj.latitude + ',' + obj.longitude;
+    if (typeof obj === 'string') {
+	return obj;
+    } else {
+	return "" + obj.latitude + ',' + obj.longitude;
+    }
 }
 
 var echo_queries = 0
@@ -144,6 +149,6 @@ if (process.argv[1] === __filename) {
 	    console.log(e)
 	},
 	function(x) {
-	    // console.log(x)
+	    console.log(x)
 	})
 }
