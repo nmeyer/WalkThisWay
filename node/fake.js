@@ -17,8 +17,8 @@ exports.stop_search = function() {
 function fake_object() {
     var lat = 40.7392920;
     var lng = -73.9893630;
-    var dlat = 0.05;
-    var dlng = 0.05;
+    var dlat = 0.02;
+    var dlng = 0.02;
     return {
         location: {
             latitude: lat + (((Math.random() * 2) - 1) * dlat),
@@ -35,7 +35,7 @@ function helper(p) {
         console.log('*** sending ***');
         p.progress(fake_object());
         helper(p);
-    }, Math.random() * T);
+    }, 1000);
 }
 
 exports.search = function() {
