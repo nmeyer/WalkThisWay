@@ -28,14 +28,21 @@ function fake_object() {
     }
 }
 
+var running = false;
 var T = 250;
 function helper(p) {
     setTimeout(function() {
+        console.log('*** sending ***');
         p.progress(fake_object());
+        helper(p);
     }, Math.random() * T);
 }
 
 exports.search = function() {
+    if (running) return {
+        then: function() {}
+    };
+    running = true;
     var p = new promise.Promise();
     helper(p);
     return p;
