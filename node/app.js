@@ -10,7 +10,7 @@ var fs          = require('fs')
 var url         = require('url')
 var querystring = require('querystring')
 var supervise   = require('lib/supervise')
-var main = require('main')
+var main = require('fake')
 
 require('lib/lang')
 
