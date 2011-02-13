@@ -76,13 +76,13 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
-    // navigator.geolocation.getCurrentPosition(function(position) {
-    //     console.log('initial position found via geolocation API: ', position)
-    //     updateCurrentPosition(position)
-    // }, function() {
-    //     console.log('location failed. defaulting to new york')
-    //     map.setCenter(newyork)
-    // })
+    navigator.geolocation.getCurrentPosition(function(position) {
+        console.log('initial position found via geolocation API: ', position)
+        updateCurrentPosition(position)
+    }, function() {
+        console.log('location failed. defaulting to new york')
+        map.setCenter(newyork)
+    })
     
     var watcher = navigator.geolocation.watchPosition(function(position) {
         updateCurrentPosition(position)
@@ -94,7 +94,7 @@ function initMap() {
 
 function initPlayer() {
     var player = WTW.player = new Player("#player")
-    player.load('media/clips/sample.clip.mp3')
+    // player.load('media/clips/sample.clip.mp3') // test
     player.play()
 }
 
