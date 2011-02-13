@@ -39,34 +39,46 @@ function run() {
               return server; 
           }, function (client, req, res) {
               console.log(client.sessionId + ' connected')
-              
-             //  client.send(req.session.toString()) // Send the client their session
-              
-	      var tweets = []
-	      var sent = false;
+
+              //  client.send(req.session.toString()) // Send the client their session
+
+              var tweets = []
+              var sent = false;
               client.on('message', function(message){
                   console.log('got message: '+message)
                   var latlng  = JSON.parse(message).location
                   console.log(latlng)
                   main.search(latlng).then(
-		      function() {
-			  client.send(JSON.stringify(tweets[0]))
-		      }, 
-		      function() {}, 
-		      function(el) {
-			  // tweets.push(el);
-			  if (sent) return
-			  client.send(JSON.stringify(el));
-			  sent = true;
-
-                      })
+                      function() {
+                          console.log('search promise resolved.')
+                          // tweets.sort(function(a, b) {
+                          //     var date1 = new Date(a.created_at)
+                          //   var date2 = new Date(b.created_at)
+                          //   if (date1 < date2)
+                          //       return -1
+                          //   else if (date2 > date1)
+                          //       return 1
+                          //   else return 0
+                          // })
+                          // console.log(tweets)
+                          // client.send(JSON.stringify(tweets[0]))
+                      }, 
+                      function() {
+                          
+                      }, 
+                      function(el) {
+                          // tweets.push(el);
+                          if (sent) return
+                          client.send(JSON.stringify(el));
+                          sent = true;
+                  })
               });
 
               client.on('disconnect', function(){
                   main.stop_search()
-                  
+
                   console.log(client.sessionId + ' disconnected');
-                  
+
               });
               
           }),  

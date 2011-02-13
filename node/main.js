@@ -94,14 +94,19 @@ function search(loc) {
 */
 		    console.log('asking for song info from echonest')
 // 		    echo_queries++;
-		    when(echo.lookup_song(tweet.info.title), function(first_song) {
-			console.log('got song info from echonest')
-			tweet.song_info = first_song;
-			if (first_song && first_song.tracks && first_song.tracks.length) {
-			    tweet.track_url = first_song.tracks[0].preview_url;
-			    p.progress(tweet);
-			}
-		    });
+            
+            var whenHandler = (function(t) {
+                return function(first_song) {
+        			console.log('got song info from echonest from tweet: ')
+        			console.log(t)
+        			t.song_info = first_song;
+        			if (first_song && first_song.tracks && first_song.tracks.length) {
+        			    t.track_url = first_song.tracks[0].preview_url;
+        			    p.progress(t);
+        			}
+    		    }
+            })(tweet)
+		    when(echo.lookup_song(tweet.info.title), whenHandler);
 		}
 	    }
 	    // p.resolve();

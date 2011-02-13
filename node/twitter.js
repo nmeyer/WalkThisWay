@@ -73,7 +73,7 @@ twitter_client.prototype.search_helper = function(p, location, term, source, top
 	return;
     }
     assert.ok((source != undefined) || (term != undefined) || (topic != undefined), 'one query term must be defined');
-    var g = (location) ? location + ',1mi' : undefined;
+    var g = (location) ? location + ',2mi' : undefined;
     var params = {
         q: term,
         geocode: g,
@@ -95,6 +95,7 @@ twitter_client.prototype.search_helper = function(p, location, term, source, top
 	}
 	console.log('twitter.progress w/ ' + results.length);
         p.progress(results.slice(0, 10));
+        // p.progress(results[0]) // just return latest tweet for now.
 	if (false && results.length) {
 	    self.search_helper(p, location, term, source, topics, page + 1);
 	} else {
@@ -175,6 +176,7 @@ if (process.argv[1] === __filename) {
     }, function(x) {
 	total += x.length;
 	console.log('x:' + x.length + ', ' + total);
+	console.log(x)
 	var tweet;
 	for(var i = 0; i < x.length; i++) {
 	    tweet = x[i];
