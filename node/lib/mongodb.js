@@ -41,7 +41,8 @@ Collection.prototype.execute = function(db) {
 var _opFunctions = {
     find: 'find',
     save: 'save',
-    insert: 'insert'
+    insert: 'insert',
+    runCommand: 'runCommand'
 }
 
 var _cursorFunctions = {

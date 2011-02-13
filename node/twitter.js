@@ -86,16 +86,17 @@ twitter_client.prototype.search_helper = function(p, location, term, source, top
     console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
     when(self.client.get(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix), function(response) {
         var q = JSON.parse(response.body);
-        var results = q.results, result;
-	for (var i = 0; i < results.length; i++) {
-	    result = results[i];
+        var results = [], result;
+	for (var i = 0; i < q.results.length; i++) {
+	    result = q.results[i];
 	    // console.log(result)
 	    result.info = one(self.clean(result.text))
 	    result.location = self.detect_location_format(result.location)
+	    if (result.location.latitude && result.location.longitude)
+		results.push(result)
 	}
 	console.log('twitter.progress w/ ' + results.length);
-        p.progress(results.slice(0, 10));
-        // p.progress(results[0]) // just return latest tweet for now.
+        p.progress(results.slice(0, 25));
 	if (false && results.length) {
 	    self.search_helper(p, location, term, source, topics, page + 1);
 	} else {

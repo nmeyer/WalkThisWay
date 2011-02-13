@@ -11,7 +11,9 @@ var url         = require('url')
 var querystring = require('querystring')
 var supervise   = require('lib/supervise')
 // var main = require('fake')
-var main = require('main')
+// var main = require('main')
+var db = require('lib/mongodb').Database;
+
 
 require('lib/lang')
 
@@ -48,6 +50,7 @@ function run() {
                   console.log('got message: '+message)
                   var latlng  = JSON.parse(message).location
                   console.log(latlng)
+		  /*
                   main.search(latlng).then(
                       function() {
                           console.log('search promise resolved.')
@@ -72,10 +75,18 @@ function run() {
                           client.send(JSON.stringify(el));
                           sent = true;
                   })
+		  */
+		  
+
+		  db('tweets').find({ location: { $near: [latlng.latitude, latlng.longitude] } }).one(function(tweet) {
+                      client.send(JSON.stringify(tweet))
+		      console.log(tweet)
+		  });
+
               });
 
               client.on('disconnect', function(){
-                  main.stop_search()
+                  // main.stop_search()
 
                   console.log(client.sessionId + ' disconnected');
 

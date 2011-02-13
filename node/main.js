@@ -140,6 +140,15 @@ if (process.argv[1] === __filename) {
     var p = new promise.Promise();
     var results = [];
     var total = 0;
+
+    db('tweets').insert({
+	location: {
+	    latitude: -10,
+	    longitude: -10
+	}
+    });
+    // db('tweets').ensureIndex({location: "2d"})
+    // db('tweets').ensureIndex({id: 1, id_str: 1}, {unique: true});
     
     search("40.7392920,-73.9893630", '#nowplaying').then(
 	function() {
@@ -150,5 +159,6 @@ if (process.argv[1] === __filename) {
 	},
 	function(x) {
 	    console.log(x)
+	    db('tweets').insert(x)
 	})
 }
