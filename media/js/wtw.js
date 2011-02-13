@@ -39,7 +39,9 @@ function showTweetOnMap(message) {
         animation: google.maps.Animation.DROP,
         position: position
     });
+    
     WTW.map.panTo(position)
+    
 }
 
 function updateCurrentPosition(position) {

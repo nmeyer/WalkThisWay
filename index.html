@@ -5,21 +5,37 @@
     <title>Walk This Way</title>
     <script src="http://localhost:8000/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="media/js/console.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    
+    <script src="media/js/console.js"></script>
     <script src="media/js/sammy.js"></script>
+    
     <script src="media/js/jquery.jplayer.min.js"></script>
     <script src="media/js/player.js"></script>
+    
     <script src="media/js/wtw.js"></script>
+    
     <link rel="stylesheet" href="media/css/style.css" type="text/css" media="screen" charset="utf-8">
+    <link href='http://fonts.googleapis.com/css?family=Cabin:regular,bold' rel='stylesheet' type='text/css'>
+    
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 </head>
 <body>
     
+    <!-- <div id="pulse"></div> -->
     <div id="map"></div>
-    
-    <!-- <audio id="player" src="" autoplay="none" preload="auto" controls="controls"></audio> -->
     <div id="player"></div>
+    
+    <div id="now-playing">now playing <span id="title">Marathon</span> by <span id="artist">Tennis</span></div>
+    
+    <div id="tweet">
+        <p id="tweet-body">Love this track. Makes me feel like flying.</p>
+        <p id="tweet-info"><span class='big-symbol'>♥</span> by scherrynyc <span id="tweet-info-extra">10 minutes ago from 100 yards away</span></p>
+    </div>
+    
+    <div id="walk-controls">
+        <p id="walk-this-way">let's go adventuring <span class='big-symbol'>➜</span></p>
+    </div>
     
 </body>
 </html>
