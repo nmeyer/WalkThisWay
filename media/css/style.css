@@ -48,6 +48,7 @@ p {
 #now-playing #title, #now-playing #artist {
     color: #0099FF;
     text-decoration: underline;
+    margin: 0 5px;
 }
 
 #tweet-body {

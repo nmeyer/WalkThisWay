@@ -21,12 +21,30 @@ socket.on('message', function(data){
         showTweetOnMap(message)
     }
     if (message.track_url) {
+        updateNowPlaying(message.song_info)
         WTW.player.play(message.track_url)
+    }
+    if (message.text) {
+        updateTweetDisplay(message)
     }
 })
 socket.on('disconnect', function(){
     console.log('socket disconnected.')
 })
+
+// Info Displays
+
+function updateTweetDisplay(message) {
+    var $tweet = $('#tweet')
+    $tweet.find('#tweet-body').text(unescape(message.text))
+    $tweet.find('#tweet-user').text(message.from_user)
+}
+
+function updateNowPlaying(song) {
+    var $nowPlaying = $('#now-playing')
+    $nowPlaying.find('#artist').text(song.artist_name)
+    $nowPlaying.find('#title').text(song.title)
+}
 
 // Google Maps
 
