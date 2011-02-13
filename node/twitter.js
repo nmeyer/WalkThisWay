@@ -26,6 +26,29 @@ function twitter_client() {
     };
 }
 
+twitter_client.prototype.detect_location_format = function(x) {
+    assert.notEqual(x, undefined, 'there is no x')
+    x = x.toLowerCase();
+    var tokens = x.split(' ');
+    var num_tokens = tokens.length;
+    if (num_tokens ===2 && tokens[0].endswith(':')) {
+        var lat_lng = tokens[1].split(',').map(parseFloat);
+        return {
+            location: {
+                latitude: lat_lng[0],
+                longitude: lat_lng[1]
+            }
+        };
+    } else if (num_tokens === 2 && tokens[0].endswith(',')) {
+        return {
+            location: {
+                latitude: parseFloat(tokens[0]),
+                longitude: parseFloat(tokens[1])
+            }
+        };
+    } 
+    return {};
+}
 
 
 /**
@@ -60,7 +83,6 @@ twitter_client.prototype.search_helper = function(p, term, location) {
     // console.log(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix)
     when(self.client.get(self.search_url.prefix + querystring.stringify(params) + self.search_url.suffix), function(response) {
         var q = JSON.parse(response.body);
-        // console.log(q)
         var results = q.results.map(function(x) {
             var data = {
                 name: self.clean(x.text),
@@ -77,7 +99,7 @@ twitter_client.prototype.search_helper = function(p, term, location) {
         }).filter(function(x) {
             return x.name.length && x.location.latitude && !isNaN(x.location.latitude) && x.location.longitude && !isNaN(x.location.longitude);
         });
-        p.resolve(results);
+        p.progress(results);
     })
 }
 twitter_client.prototype.search = function(term, location) {

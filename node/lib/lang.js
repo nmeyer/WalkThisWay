@@ -68,6 +68,7 @@ String.prototype.startswith = function(str)  {
     return (this.match("^"+str)==str)
 }
 
+String.prototype.endswith = function(str)  {return (this.match(str+"$")==str)}
 // Date
 
 /*

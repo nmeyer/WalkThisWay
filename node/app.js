@@ -45,6 +45,7 @@ function run() {
                   console.log('got message: '+message)
                   var latlng  = JSON.parse(message).location
                   console.log(latlng)
+                  main.stop_search()
                   main.search(latlng).then(function() {}, function() {}, function(el) {
                       client.send(JSON.stringify(el));
                   })
