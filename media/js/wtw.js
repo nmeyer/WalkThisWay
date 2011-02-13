@@ -94,6 +94,11 @@ function initMap() {
             longitude: -73.989363
         }
     }
+    WTW.currentPosition = {
+        latitude: newyork.coords.latitude,
+        longitude: newyork.coords.longitude,
+        accuracy: newyork.coords.accuracy
+    }
     
     var map = WTW.map = new google.maps.Map(document.getElementById("map"), {
         center: new google.maps.LatLng(newyork.latitude, newyork.longitude),
@@ -102,18 +107,18 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     })
     
-    navigator.geolocation.getCurrentPosition(function(position) {
-        console.log('getCurrentPosition')
-        updateCurrentPosition(position)
-    }, function() {
-        console.log('location failed. keeping default in new york.')
-        updateCurrentPosition(newyork)
-    })
-    
-    var watcher = navigator.geolocation.watchPosition(function(position) {
-        console.log('watchPosition')
-        updateCurrentPosition(position)
-    })
+    // navigator.geolocation.getCurrentPosition(function(position) {
+    //     console.log('getCurrentPosition')
+    //     updateCurrentPosition(position)
+    // }, function() {
+    //     console.log('location failed. keeping default in new york.')
+    //     updateCurrentPosition(newyork)
+    // })
+    // 
+    // var watcher = navigator.geolocation.watchPosition(function(position) {
+    //     console.log('watchPosition')
+    //     updateCurrentPosition(position)
+    // })
         
 }
 
@@ -127,6 +132,9 @@ function initPlayer() {
 
 WTW.readyForMusic = function() {
     updateCurrentPosition()
+    setInterval(function() {
+        updateCurrentPosition()
+    }, 15000)
 }
 
 // Sammy
